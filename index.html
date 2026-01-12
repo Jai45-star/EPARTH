@@ -1,0 +1,311 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>eParth Youth - VR Student Profile Form</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;500;700;900&family=Exo+2:wght@300;400;500;700&display=swap" rel="stylesheet">
+    <style>
+        :root {
+            --primary: #00ffff;
+            --secondary: #ff00ff;
+            --dark: #0a001f;
+            --glow: rgba(0, 255, 255, 0.6);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: 'Exo 2', sans-serif;
+            background: var(--dark);
+            color: #fff;
+            min-height: 100vh;
+            background-image: url('https://static.vecteezy.com/system/resources/previews/049/001/824/non_2x/a-user-is-completely-immersed-in-a-vibrant-virtual-reality-world-wearing-innovative-futuristic-goggles-and-surrounded-by-dazzling-neon-lights-creating-an-astonishingly-immersive-gaming-experience-photo.jpg');
+            background-size: cover;
+            background-position: center;
+            background-attachment: fixed;
+            position: relative;
+        }
+
+        body::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(to bottom, rgba(10,0,31,0.88), rgba(10,0,31,0.95));
+            z-index: -2;
+        }
+
+        .particles { position: fixed; inset: 0; pointer-events: none; z-index: -1; }
+        .particle {
+            position: absolute;
+            background: var(--primary);
+            border-radius: 50%;
+            opacity: 0.4;
+            animation: float 15s infinite linear;
+        }
+        @keyframes float {
+            0% { transform: translateY(100vh) scale(0.5); opacity: 0; }
+            50% { opacity: 0.6; }
+            100% { transform: translateY(-100vh) scale(1); opacity: 0; }
+        }
+
+        header {
+            padding: 30px 5% 20px;
+            text-align: center;
+            background: rgba(0,0,0,0.4);
+            backdrop-filter: blur(10px);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            border-bottom: 1px solid rgba(0,255,255,0.2);
+        }
+
+        .logo { font-family: 'Orbitron', sans-serif; font-size: clamp(2rem, 6vw, 3.5rem); font-weight: 900; color: var(--primary); text-shadow: 0 0 20px var(--glow); margin-bottom: 10px; }
+        .tagline { font-size: clamp(1rem, 4vw, 1.4rem); color: #ccc; margin-bottom: 10px; }
+        .description { font-size: clamp(0.9rem, 3.5vw, 1.1rem); max-width: 800px; margin: 0 auto; }
+
+        .container { max-width: 900px; margin: 40px auto; padding: 0 20px; }
+        .form-box {
+            background: rgba(20, 20, 60, 0.75);
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(0,255,255,0.4);
+            border-radius: 25px;
+            padding: clamp(30px, 6vw, 50px) clamp(20px, 6vw, 40px);
+            box-shadow: 0 0 50px rgba(0,255,255,0.4);
+            animation: fadeUp 1.2s ease-out;
+        }
+        @keyframes fadeUp { from { opacity: 0; transform: translateY(50px); } to { opacity: 1; transform: translateY(0); } }
+
+        h1 { font-family: 'Orbitron', sans-serif; text-align: center; margin-bottom: 40px; color: var(--primary); text-shadow: 0 0 20px var(--glow); font-size: clamp(2.2rem, 7vw, 3.5rem); }
+        h2 { font-family: 'Orbitron', sans-serif; font-size: clamp(1.6rem, 5vw, 2.4rem); color: #00ffcc; margin: 40px 0 25px; border-bottom: 3px solid var(--primary); padding-bottom: 12px; text-shadow: 0 0 15px var(--glow); animation: glow 4s infinite alternate; }
+        @keyframes glow { from { text-shadow: 0 0 10px var(--glow); } to { text-shadow: 0 0 30px var(--glow); } }
+
+        .form-group { margin-bottom: 28px; }
+        label { display: block; margin-bottom: 10px; font-weight: 500; color: #e0e0ff; font-size: clamp(1rem, 3.5vw, 1.15rem); }
+        input, select, textarea {
+            width: 100%;
+            padding: 16px;
+            border: 2px solid var(--primary);
+            border-radius: 10px;
+            background: rgba(255,255,255,0.08);
+            color: white;
+            font-size: clamp(0.95rem, 3.5vw, 1.1rem);
+            transition: all 0.3s ease;
+        }
+        select {
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' fill='%2300ffff' viewBox='0 0 16 16'%3E%3Cpath d='M7.247 11.14 2.451 5.658C1.885 5.013 2.345 4 3.204 4h9.592a1 1 0 0 1 .753 1.659l-4.796 5.48a1 1 0 0 1-1.506 0z'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 16px center;
+            background-size: 12px;
+        }
+        input:focus, select:focus, textarea:focus {
+            outline: none;
+            border-color: var(--secondary);
+            box-shadow: 0 0 20px rgba(255,0,255,0.6);
+            transform: scale(1.015);
+        }
+
+        .checkbox-group { display: flex; flex-wrap: wrap; gap: 18px; margin-top: 12px; }
+        .checkbox-group label { display: flex; align-items: center; gap: 10px; cursor: pointer; font-size: clamp(0.9rem, 3vw, 1.05rem); }
+
+        button {
+            width: 100%;
+            padding: 20px;
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            border: none;
+            border-radius: 12px;
+            color: #000;
+            font-size: clamp(1.2rem, 4.5vw, 1.5rem);
+            font-weight: bold;
+            cursor: pointer;
+            margin-top: 40px;
+            transition: all 0.4s;
+            box-shadow: 0 0 25px var(--glow);
+        }
+        button:hover { transform: translateY(-6px) scale(1.02); box-shadow: 0 0 50px rgba(255,0,255,0.8); }
+
+        footer { text-align: center; padding: 40px 20px 30px; background: rgba(0,0,0,0.6); margin-top: 60px; border-top: 1px solid rgba(0,255,255,0.3); }
+        footer p { font-size: clamp(0.9rem, 3vw, 1rem); }
+
+        #status { text-align: center; margin-top: 25px; font-size: clamp(1.1rem, 4vw, 1.3rem); font-weight: bold; }
+
+        @media (max-width: 768px) { .container { margin: 20px auto; padding: 0 15px; } .form-box { border-radius: 20px; padding: 30px 20px; } }
+    </style>
+</head>
+<body>
+
+    <div class="particles"></div>
+
+    <header>
+        <div class="logo">eParth Youth Private Limited</div>
+        <div class="tagline">Upgrading Minds.</div>
+        <p class="description">
+            A pioneering initiative that began in Basti, redefining the way technology is perceived through the power of Virtual Reality.
+        </p>
+    </header>
+
+    <div class="container">
+        <div class="form-box">
+            <h1>VR Student Profile Form</h1>
+
+            <form id="studentForm">
+                <h2>Basic & Demographic Data</h2>
+
+                <div class="form-group">
+                    <label for="name">Student/User Name</label>
+                    <input type="text" id="name" name="name" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="age">Age</label>
+                    <input type="number" id="age" name="age" min="5" max="25" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="grade">Grade/Class</label>
+                    <input type="text" id="grade" name="grade" required placeholder="e.g., 8th">
+                </div>
+
+                <div class="form-group">
+                    <label for="school">School Name</label>
+                    <input type="text" id="school" name="school" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="whatsapp">WhatsApp Number</label>
+                    <input type="tel" id="whatsapp" name="whatsapp" pattern="[0-9]{10}" required placeholder="10-digit number without +91 or 0">
+                </div>
+
+                <div class="form-group">
+                    <label for="email">Email</label>
+                    <input type="email" id="email" name="email" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="state">State</label>
+                    <select id="state" name="state" required>
+                        <option value="Uttar Pradesh">Uttar Pradesh</option>
+                        <option value="Delhi">Delhi</option>
+                        <option value="Bihar">Bihar</option>
+                        <option value="Madhya Pradesh">Madhya Pradesh</option>
+                        <option value="Rajasthan">Rajasthan</option>
+                        <option value="Haryana">Haryana</option>
+                        <option value="Jharkhand">Jharkhand</option>
+                        <option value="Chhattisgarh">Chhattisgarh</option>
+                    </select>
+                </div>
+
+                <div class="form-group">
+                    <label for="city">City / Area</label>
+                    <input type="text" id="city" name="city" value="Basti" required>
+                </div>
+
+                <div class="form-group">
+                    <label for="full_address">Full Address (House No., Colony, Landmark etc.)</label>
+                    <textarea id="full_address" name="full_address" rows="3" placeholder="e.g., House No. 123, Shanti Colony, Near Bus Stand, Basti..." required></textarea>
+                </div>
+
+                <h2>Academic & Interest Data</h2>
+
+                <div class="form-group">
+                    <label>Subjects of Interest (Select all that apply)</label>
+                    <div class="checkbox-group">
+                        <label><input type="checkbox" name="interest" value="Science"> Science (विज्ञान)</label>
+                        <label><input type="checkbox" name="interest" value="History"> History (इतिहास)</label>
+                        <label><input type="checkbox" name="interest" value="Travel"> Travel (यात्रा)</label>
+                        <label><input type="checkbox" name="interest" value="Gaming"> Gaming (गेमिंग)</label>
+                        <label><input type="checkbox" name="interest" value="Mathematics"> Mathematics</label>
+                        <label><input type="checkbox" name="interest" value="Technology"> Technology / Coding</label>
+                        <label><input type="checkbox" name="interest" value="Other"> Other</label>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label for="difficult">Chapters/Topics that feel difficult</label>
+                    <textarea id="difficult" name="difficult" rows="4" placeholder="e.g., Algebra, World Wars, Physics concepts..."></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="coaching">Current Coaching Status</label>
+                    <select id="coaching" name="coaching" required>
+                        <option value="Yes">Yes</option>
+                        <option value="No">No</option>
+                        <option value="Self Study">Self Study</option>
+                    </select>
+                </div>
+
+                <button type="submit">Submit Profile</button>
+            </form>
+
+            <div id="status"></div>
+        </div>
+    </div>
+
+    <footer>
+        <p>© 2026 eParth Youth Private Limited. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Particles
+        const particles = document.querySelector('.particles');
+        for(let i = 0; i < 70; i++) {
+            const p = document.createElement('div');
+            p.className = 'particle';
+            p.style.width = p.style.height = Math.random() * 5 + 2 + 'px';
+            p.style.left = Math.random() * 100 + 'vw';
+            p.style.top = Math.random() * 100 + 'vh';
+            p.style.animationDuration = Math.random() * 25 + 12 + 's';
+            p.style.animationDelay = Math.random() * 6 + 's';
+            particles.appendChild(p);
+        }
+
+        // Form submission
+        const form = document.getElementById('studentForm');
+        const status = document.getElementById('status');
+
+        form.addEventListener('submit', async function(e) {
+            e.preventDefault();
+            
+            status.textContent = 'Submitting...';
+            status.style.color = '#ffff00';
+
+            const formData = new FormData(form);
+            const data = {};
+
+            formData.forEach((value, key) => {
+                data[key] = value.trim();
+            });
+
+            const interests = [];
+            document.querySelectorAll('input[name="interest"]:checked').forEach(checkbox => {
+                interests.push(checkbox.value);
+            });
+            data.interests = interests.join(', ');
+
+            try {
+                // Yahan apna real Google Apps Script URL daal do
+                const scriptURL = 'https://script.google.com/macros/s/AKfycbxuM4qb3iqiaKz2lMZnRVAZueplpST4tMJJLcY7MRlpuaWGa9-Dqlxs7ARDmS6xQvK2/exec';
+
+                await fetch(scriptURL, {
+                    method: 'POST',
+                    mode: 'no-cors',
+                    cache: 'no-cache',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify(data)
+                });
+
+                status.textContent = 'Profile Submitted Successfully! 🚀 Thank you!';
+                status.style.color = '#00ff00';
+                form.reset();
+
+            } catch (error) {
+                console.error('Submission error:', error);
+                status.textContent = 'Error submitting data. Please check internet and try again.';
+                status.style.color = '#ff4444';
+            }
+        });
+    </script>
+</body>
+</html>
